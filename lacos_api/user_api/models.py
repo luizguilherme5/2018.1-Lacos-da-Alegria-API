@@ -5,8 +5,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.core.validators import (RegexValidator, MinLengthValidator, MaxLengthValidator, MinValueValidator,
                                     MaxValueValidator, EmailValidator)
 
-from lacos_api.activity_api.models import HospitalActivity
-
 
 def validate_genre(value):
     if (value == "Masculino") or (value == "Feminino"):
@@ -158,8 +156,8 @@ class UserProfile(AbstractBaseUser, PermissionsMixin, RegexValidator):
     """Respents a "user profile" inside our system."""
     username = models.CharField(max_length=255, unique=True, validators=[MinLengthValidator(5), MaxLengthValidator(20),
                                 RegexValidator(regex='^[a-zA-Z0-9]+([_-]?[a-zA-Z0-9])*$')])
-    password = models.CharField(max_length=32, validators=[MinLengthValidator(6), MaxLengthValidator(132),
-                                RegexValidator(regex='^[a-zA-Z0-9]*$')])  # Alterar quando o metodo PUT estiver correto
+    password = models.CharField(max_length=255, validators=[MinLengthValidator(6), MaxLengthValidator(255)])
+    # RegexValidator(regex='^[a-zA-Z0-9]*$')]) Alterar quando o metodo PUT estiver correto
     email = models.EmailField(max_length=255, unique=True, validators=[EmailValidator()])
     cpf = models.CharField(max_length=255, unique=True, validators=[validate_cpf])
     name = models.CharField(max_length=255, validators=[MinLengthValidator(3), MaxLengthValidator(50),
@@ -182,7 +180,6 @@ class UserProfile(AbstractBaseUser, PermissionsMixin, RegexValidator):
     # promoted = models.BooleanField(default=False)
     # voluntary_hours = models.IntegerField()
     # created = models.DateField()
-    activities = models.ManyToManyField(HospitalActivity, blank=True)
     role = models.CharField(max_length=255, default='Novato')
 
     objects = UserProfileManager()
