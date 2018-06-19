@@ -6,7 +6,7 @@ from lacos_api.user_api.views import UserProfileViewSet
 from lacos_api.activity_api.views import HospitalActivityViewSet, NGOActivityViewSet
 
 router = DefaultRouter()
-router.register('profile2', UserProfileViewSet)
+router.register('profile', UserProfileViewSet)
 router.register('hospital-activities', HospitalActivityViewSet)
 router.register('ngo-activities', NGOActivityViewSet)
 
